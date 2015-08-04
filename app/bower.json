@@ -1,0 +1,14 @@
+{
+  "name": "anagram.js",
+  "description": "A anagram processor",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "jquery": "^2.1.4",
+    "uikit": "^2.21.0",
+    "requirejs": "^2.1.20"
+  },
+  "devDependencies": {
+    "jasmine": "^2.3.4"
+  }
+}

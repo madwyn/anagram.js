@@ -1,0 +1,26 @@
+{
+  "name": "anagram.js",
+  "productName": "Anagram.js",
+  "description": "A JavaScript app for resolving anagrams.",
+  "version": "0.0.1",
+  "author": "Madwyn <madwyn@gmail.com>",
+  "main": "app.html",
+  "window": {
+    "icon": "icon.png",
+    "show": true,
+    "toolbar": true,
+    "width": 1000,
+    "height": 600,
+    "min_width": 800,
+    "min_height": 400,
+    "position": "center"
+  },
+  "dependencies": {
+    "fs-jetpack": "^0.6.4",
+    "byline": "^4.2.0"
+  },
+  "devDependencies": {
+    "chance": "^0.7.6",
+    "underscore": "^1.8.3"
+  }
+}

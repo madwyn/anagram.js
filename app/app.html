@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Anagram.js</title>
+
+    <link rel="stylesheet" href="bower_components/uikit/css/uikit.min.css" />
+    <link rel="stylesheet" href="bower_components/uikit/css/components/form-advanced.min.css" />
+    <link rel="stylesheet" href="bower_components/uikit/css/components/form-file.min.css" />
+    <link rel="stylesheet" href="bower_components/uikit/css/components/progress.min.css" />
+    <link rel="stylesheet" href="bower_components/uikit/css/components/notify.min.css" />
+    <link rel="stylesheet" href="bower_components/uikit/css/components/tooltip.min.css" />
+    <link rel="stylesheet" href="bower_components/uikit/css/components/autocomplete.min.css" />
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/uikit/js/uikit.min.js"></script>
+    <script src="bower_components/uikit/js/components/notify.min.js"></script>
+    <script src="bower_components/uikit/js/components/tooltip.min.js"></script>
+    <script src="bower_components/uikit/js/components/autocomplete.min.js"></script>
+
+    <!-- Scripts giving you few extra things in NW.js -->
+    <script src="vendor/nw-boilerplate/window_state.js"></script>
+    <script src="vendor/nw-boilerplate/context_menu.js"></script>
+    <script src="vendor/nw-boilerplate/external_links.js"></script>
+    <script src="vendor/nw-boilerplate/dev_helper.js"></script>
+    <script src="vendor/nw-boilerplate/env_config.js"></script>
+    <script>
+        (function () {
+            var gui = require('nw.gui');
+            var win = gui.Window.get();
+
+            // Create default menu items for OSX
+            if (process.platform === 'darwin') {
+                var mb = new gui.Menu({ type: "menubar" });
+                mb.createMacBuiltin(gui.App.manifest.productName);
+                win.menu = mb;
+            }
+        }());
+    </script>
+
+    <!-- Load real app code -->
+    <script src="bower_components/requirejs/require.js"></script>
+    <script>
+        requirejs(['app'], function (app) {});
+    </script>
+</head>
+<body class="uk-height-1-1">
+<div class="uk-flex uk-flex-column">
+    <div class="uk-panel uk-panel-box uk-panel-divider">
+        <h3 class="uk-panel-title">Dictionary</h3>
+        <div class="uk-form uk-form-horizontal">
+            <div class="uk-form-row">
+                <label data-uk-tooltip="{pos:'top'}" title="Ignore capitalisation">
+                    <input type="checkbox" id="chk_case" checked>Case Insensitive
+                </label>
+                <label data-uk-tooltip="{pos:'top'}" title="Filter the words with symbols, only keep words made with [a, z] and [A, Z]">
+                    <input type="checkbox" id="chk_symbol" checked>Filter Symbols
+                </label>
+            </div>
+            <div class="uk-form-row">
+                <div class="uk-flex">
+                    <div class="uk-form-file">
+                        <button class="uk-button uk-button-large">Select</button>
+                        <input id="sel_dict_file" type="file">
+                    </div>
+                    <div class="uk-width-1-1">
+                        <input id="input_dict_file" type="text" class="uk-form-large uk-width-1-1" placeholder="Dictionary File Path">
+                    </div>
+                </div>
+            </div>
+            <div class="uk-form-row">
+                <button id="btn_process" class="uk-button uk-button-primary uk-button-large" disabled>Process</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="uk-panel uk-panel-box uk-panel-divider">
+        <div class="uk-progress-mini">
+            <div class="uk-progress-bar" id="progress_bar" style="width: 0%;"></div>
+        </div>
+        <table class="uk-table uk-table-hover">
+            <!--<caption>Below shows the processing results:</caption>-->
+            <thead>
+            <tr>
+                <th>Dict Size</th>
+                <th>Total Words</th>
+                <th>Anagrammatic Words</th>
+                <th>Anagram Ratio(%)</th>
+                <th>Anagrams</th>
+                <th>Time Spent</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td>Lines of the dictionary</td>
+                <td>Alphabetic filtered</td>
+                <td></td>
+                <td>Anagrammatic / Total</td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tfoot>
+            <tbody>
+            <tr>
+                <td id="td_dict_lines"></td>
+                <td id="td_total_words"></td>
+                <td id="td_anagrammatic_words"></td>
+                <td id="td_anagram_ratio"></td>
+                <td id="td_anagrams"></td>
+                <td id="td_processing_time"></td>
+            </tr>
+            </tbody>
+        </table>
+        <dl class="uk-description-list-line">
+            <dt>Longest anagram</dt>
+            <dd id="txt_long_anagram"></dd>
+            <dt>Biggest anagram</dt>
+            <dd id="txt_big_anagram"></dd>
+        </dl>
+    </div>
+    <div id="auto_anagram_search" class="uk-autocomplete uk-panel uk-panel-box uk-panel-divider" data-uk-autocomplete>
+        <h3 class="uk-panel-title">Lookup Anagram</h3>
+        <div class="uk-width-1-1"><input type="text" class="uk-form-large uk-width-1-1" placeholder="Type in here to look up anagrams"></div>
+        <script type="text/autocomplete">
+            <ul class="uk-nav uk-nav-autocomplete uk-autocomplete-results">
+                {{~items}}
+                <li data-value="{{ $item.value }}">
+                    <a>
+                        {{ $item.value }}
+                        <div>{{{ $item.anagram }}}</div>
+                    </a>
+                </li>
+                {{/items}}
+            </ul>
+        </script>
+    </div>
+</div>
+
+</body>
+</html>
